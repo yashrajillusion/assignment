@@ -7,8 +7,9 @@ app.use(json());
 
 const userController = require("../src/controller/user.controller");
 const orderController = require("../src/controller/order.controller");
+const { authenticate } = require("./middleware/authenticate");
 app.use("/", userController);
-app.use("/", orderController);
+app.use("/", authenticate, orderController);
 
 const PORT = process.env.PORT;
 let server = app.listen(PORT, async (): Promise<void> => {

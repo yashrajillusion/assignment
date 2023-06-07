@@ -15,16 +15,16 @@ router.post("/add-order", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/get-order", async (req: Request, res: Response) => {
+router.get("/get-order", async (req: any, res: Response) => {
   try {
-    let order = await Order.find({ user_id: req.query.user_id })
-      .populate({ path: "user_id", select: "-password" })
-      .lean()
-      .exec();
+    let order = await Order.find({ user_id: req.query.user_id }).lean().exec();
 
-    return res
-      .status(200)
-      .send(generateResponse(200, "Order fetched successfully", order));
+    return res.status(200).send(
+      generateResponse(200, "Order fetched successfully", {
+        order,
+        user: req.user,
+      })
+    );
   } catch (error) {}
 });
 
