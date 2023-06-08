@@ -1,4 +1,9 @@
-# assignment
+# Voosh assignment
+[Live](https://voosh-assignment-mu.vercel.app/)
+
+[Deployed Server Link](https://voosh-h6v1.onrender.com)
+
+[Notion Doc.](https://www.notion.so/Voosh-2afcec7c90fc4b29bedbb4d85919e7aa)
 
 ## Login 
 <img width="1433" alt="Screenshot 2023-06-08 at 9 06 11 PM" src="https://github.com/yashrajillusion/voosh_assignment/assets/95868808/00a0aa9e-0080-45ba-abca-6cb6521f2688">
