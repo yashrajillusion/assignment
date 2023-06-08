@@ -1,10 +1,10 @@
 import "dotenv/config";
 import express, { json } from "express";
 import connection from "./config/db";
+import * as credentials from "./firebasekey.json";
 
 const admin = require("firebase-admin");
-const credentials = require("./firebasekey.json");
-const voosh_routes = require("../src/routes/route");
+import voosh_routes from "./routes/route";
 
 const cors = require("cors");
 
