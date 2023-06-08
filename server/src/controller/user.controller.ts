@@ -1,17 +1,11 @@
 require("dotenv").config();
-const jwt = require("jsonwebtoken");
-import express, { Request, Response, Router } from "express";
-import { generateResponse } from "../utils/helper";
+import { Request, Response } from "express";
+import { generateResponse, newToken } from "../utils/helper";
 import { auth } from "../app";
 
-const router = express.Router();
 const User = require("../model/user.model");
 
-const newToken = (user: any) => {
-  return jwt.sign({ user }, process.env.JWT_SECRET_KEY);
-};
-
-router.post("/add-user", async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response) => {
   try {
     let current_user = await await User.findOne({
       phone_number: req.body.phone_number,
@@ -36,9 +30,9 @@ router.post("/add-user", async (req: Request, res: Response) => {
   } catch (err: any) {
     return res.status(500).send(generateResponse(500, err.message, {}));
   }
-});
+};
 
-router.post("/login-user/:login_by", async (req: Request, res: Response) => {
+export const signInUser = async (req: Request, res: Response) => {
   try {
     if (req.params.login_by === "google") {
       try {
@@ -111,6 +105,4 @@ router.post("/login-user/:login_by", async (req: Request, res: Response) => {
   } catch (e: any) {
     return res.status(500).send(generateResponse(500, e.message, {}));
   }
-});
-
-module.exports = router;
+};

@@ -1,9 +1,8 @@
 import express, { Request, Response, Router } from "express";
 import { generateResponse } from "../utils/helper";
-const router = express.Router();
 const Order = require("../model/order.model");
 
-router.post("/add-order", async (req: Request, res: Response) => {
+export const createUserOrder = async (req: Request, res: Response) => {
   try {
     let order = await Order.create(req.body);
 
@@ -13,9 +12,9 @@ router.post("/add-order", async (req: Request, res: Response) => {
   } catch (err: any) {
     return res.status(500).send(generateResponse(500, err.message, {}));
   }
-});
+};
 
-router.get("/get-order", async (req: any, res: Response) => {
+export const getUserOrdersByUserId = async (req: any, res: Response) => {
   try {
     let order = await Order.find({ user_id: req.query.user_id }).lean().exec();
 
@@ -31,6 +30,4 @@ router.get("/get-order", async (req: any, res: Response) => {
   } catch (error: any) {
     return res.status(500).send(generateResponse(500, error.message, {}));
   }
-});
-
-module.exports = router;
+};

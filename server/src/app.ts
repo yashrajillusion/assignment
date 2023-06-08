@@ -4,6 +4,7 @@ import connection from "./config/db";
 
 const admin = require("firebase-admin");
 const credentials = require("./firebasekey.json");
+const voosh_routes = require("../src/routes/route");
 
 const cors = require("cors");
 
@@ -18,11 +19,7 @@ admin.initializeApp({
 
 export const auth = admin.auth();
 
-const userController = require("../src/controller/user.controller");
-const orderController = require("../src/controller/order.controller");
-const { authenticate } = require("./middleware/authenticate");
-app.use("/auth", userController);
-app.use("/", authenticate, orderController);
+app.use("/", voosh_routes);
 
 const PORT = process.env.PORT;
 let server = app.listen(PORT, async (): Promise<void> => {
