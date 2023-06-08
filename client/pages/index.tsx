@@ -8,6 +8,7 @@ import { CgSpinnerAlt } from "react-icons/cg";
 import { commonToast } from "@/utils/helper";
 import { useRouter } from "next/router";
 import { clearAllGlobalItem } from "@/utils/local-storage";
+import { handleLogout } from "@/utils/firebase";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,13 +58,21 @@ export default function Home() {
   return (
     <PrivateRoute>
       <div>
-        <div className="flex flex-col justify-center mt-8 px-8 py-6 border">
+        <div className="flex flex-col justify-center mt-8 px-8 py-6 border border-neutral-800">
+          {authUserData?.user?.name ? (
+            <p className="text-15 text-neutral-300 mb-3">
+              Hi, {authUserData.user.name}
+            </p>
+          ) : (
+            <></>
+          )}
           <div className="flex w-full justify-between">
             <p className="text-20 mb-3">Create Order</p>
             <button
               onClick={() => {
                 clearAllGlobalItem();
                 router.replace("/login");
+                handleLogout();
               }}
               type="submit"
               className={`bg-neutral-50 text-neutral-950 rounded-[12px] py-3 px-5 inter-600 disabled:opacity-60 disabled:text-neutral-950 disabled:cursor-not-allowed h-[48px] hover:opacity-80 transition duration-300`}
@@ -125,15 +134,17 @@ export default function Home() {
           </form>
         </div>
         <div className="flex justify-between p-8">
-          <div>SN.</div>
-          <div>Order Id</div>
+          <div className="w-[100px]">SN.</div>
+          <div className="flex-1">Order Id</div>
+          <div className="flex-1">Phone Number</div>
           <div>Sub Total</div>
         </div>
         {userOrdersData.map((el: Orders, idx: number) => {
           return (
             <div key={el._id} className="flex justify-between p-2 px-8">
-              <div>{idx + 1}</div>
-              <div>{el._id}</div>
+              <div className="w-[100px]">{idx + 1}</div>
+              <div className="flex-1">{el._id}</div>
+              <div className="flex-1">{el.phone_number}</div>
               <div>{el.sub_total}</div>
             </div>
           );

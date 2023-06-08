@@ -31,8 +31,5 @@ export const loginWithGoogleByPopWindow = () => {
 export const handleLogout = async () => {
   try {
     await signOut(auth);
-    alert(`Logout Success`);
-  } catch (e) {
-    // console.log(e.message);
-  }
+  } catch (e) {}
 };
