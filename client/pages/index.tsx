@@ -1,12 +1,16 @@
-import Image from "next/image";
 import { Inter } from "next/font/google";
-import GoogleIcon from "@/components/Icon/GoogleIcon";
-import { CgSpinnerAlt } from "react-icons/cg";
-import { useState } from "react";
+import { useAuthContext } from "@/context/auth-context";
+import PrivateRoute from "@/components/common/PrivateRoute";
+import { instance, setInstance } from "./api/api";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [isLoading, setLoading] = useState();
-  return <div>Home</div>;
+  const { authUserData, setAuthUserData } = useAuthContext();
+
+  return (
+    <PrivateRoute>
+      <div>Home</div>
+    </PrivateRoute>
+  );
 }

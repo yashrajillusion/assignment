@@ -19,8 +19,8 @@ router.post("/add-user", async (req: Request, res: Response) => {
       .exec();
     if (current_user)
       return res
-        .status(400)
-        .send(generateResponse(400, "Phone number already exist", {}));
+        .status(404)
+        .send(generateResponse(404, "Phone number already exist", {}));
 
     current_user = await User.create(req.body);
 
@@ -33,7 +33,7 @@ router.post("/add-user", async (req: Request, res: Response) => {
       })
     );
   } catch (err: any) {
-    return res.status(500).send(generateResponse(400, err.message, {}));
+    return res.status(500).send(generateResponse(500, err.message, {}));
   }
 });
 

@@ -4,17 +4,17 @@ import GoogleIcon from "@/components/Icon/GoogleIcon";
 import { CgSpinnerAlt } from "react-icons/cg";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/router";
-import { instance } from "./api/api";
+import { instance, login } from "./api/api";
+import { commonToast } from "@/utils/helper";
+import { useAuthContext } from "@/context/auth-context";
+import { LoginReqData } from "./api/types";
+import { setGlobalItem } from "@/utils/local-storage";
 
 const inter = Inter({ subsets: ["latin"] });
 
-interface LoginForm {
-  password: string;
-  phone_number: string;
-}
-
 export default function Login() {
-  const [loginData, setLoginData] = useState<LoginForm>({
+  const { authUserData, setAuthUserData } = useAuthContext();
+  const [loginData, setLoginData] = useState<LoginReqData>({
     password: "",
     phone_number: "",
   });
@@ -27,9 +27,12 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await instance.post("login-user", loginData);
-      console.log(data);
-    } catch (error) {
+      const { data } = await login(loginData);
+      setGlobalItem("user", data);
+      setAuthUserData(data);
+      router.push("/");
+    } catch (error: any) {
+      commonToast(error?.response?.data?.message);
       console.log(error);
     }
     setLoading(false);

@@ -2,16 +2,15 @@ import GoogleIcon from "@/components/Icon/GoogleIcon";
 import { CgSpinnerAlt } from "react-icons/cg";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/router";
-import { instance } from "./api/api";
-interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  phone_number: string;
-}
+import { instance, registerAccount } from "./api/api";
+import { commonToast } from "@/utils/helper";
+import { RegisterReqData } from "./api/types";
+import { useAuthContext } from "@/context/auth-context";
+import { setGlobalItem } from "@/utils/local-storage";
 
 export default function CreateAccount() {
-  const [registerData, setRegisterData] = useState<RegisterData>({
+  const { authUserData, setAuthUserData } = useAuthContext();
+  const [registerData, setRegisterData] = useState<RegisterReqData>({
     name: "",
     email: "",
     password: "",
@@ -27,13 +26,17 @@ export default function CreateAccount() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await instance.post("add-user", registerData);
-      console.log(data);
-    } catch (error) {
+      const { data } = await registerAccount(registerData);
+      setAuthUserData(data);
+      setGlobalItem("user", data);
+      router.push("/");
+    } catch (error: any) {
+      commonToast(error?.response?.data?.message);
       console.log(error);
     }
     setLoading(false);
   };
+
   return (
     <div className="h-[100vh] w-full flex justify-center items-center bg-neutral-925">
       <div className="flex flex-col gap-8 max-w-[400px] w-full mx-auto">
@@ -131,17 +134,6 @@ export default function CreateAccount() {
             </button>
           </div>
         </form>
-        <div className=" flex flex-col gap-12 max-w-[400px] w-full mx-auto">
-          <button
-            type="submit"
-            className={`flex justify-center items-center  bg-neutral-750 text-neutral-50 text-16 inter-600 rounded-[12px] py-3 px-5  w-full inter-600 disabled:opacity-60 disabled:text-neutral-950 disabled:cursor-not-allowed h-[48px] hover:opacity-80 transition duration-300`}
-          >
-            <span>
-              <GoogleIcon />
-            </span>
-            <span>{"Continue With Google"}</span>
-          </button>
-        </div>
       </div>
     </div>
   );
