@@ -49,12 +49,14 @@ export default function Login() {
 
   const handleGoogleLogin = async () => {
     try {
-      const data = await loginWithGoogleByPopWindow();
-      const response = await login(
-        { ...loginData, google_uid: data.user.uid },
+      const response = await loginWithGoogleByPopWindow();
+      const { data } = await login(
+        { ...loginData, google_uid: response.user.uid },
         "google"
       );
-      // console.log(data.user.uid);
+      setGlobalItem("user", data);
+      setAuthUserData(data);
+      router.push("/");
     } catch (error) {
       console.log(error);
     }

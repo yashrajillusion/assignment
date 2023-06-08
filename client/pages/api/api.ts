@@ -26,10 +26,7 @@ export const login = async (
   loginData: LoginReqData,
   login_by = "normal"
 ): Promise<CommonApiResponse<AuthUserData>> => {
-  const { data } = await instance.post(
-    `auth/login-user/${login_by}`,
-    loginData
-  );
+  const { data } = await instance.post(`login-user/${login_by}`, loginData);
   return data;
 };
 

@@ -83,7 +83,7 @@ export default function Home() {
                 value={createOrderData.phone_number ?? ""}
                 onChange={handleInput}
                 name="phone_number"
-                autoFocus={true}
+                autoFocus={false}
                 className={`lightBgTextSelection w-full bg-inherit px-4 py-3 ${"outline-[1px] outline-neutral-750 hover:outline-[1px] hover:outline-neutral-50 focus:outline-[1.5px] focus:outline-neutral-50"}  rounded-[12px] outline-none text-neutral-50 text-16 placeholder:text-neutral-600
                 transition duration-200 `}
                 placeholder={"Enter Phone number"}
