@@ -42,20 +42,20 @@ router.post("/login-user", async (req: Request, res: Response) => {
     const user = await User.findOne({ phone_number: req.body.phone_number });
     if (!user) {
       return res
-        .status(400)
-        .send(generateResponse(400, "Phone number not found", {}));
+        .status(404)
+        .send(generateResponse(404, "Phone number not found", {}));
     }
 
     const match = user.checkPassword(req.body.password);
     if (!match) {
       return res
-        .status(400)
-        .send(generateResponse(400, "Incorrect Password", {}));
+        .status(404)
+        .send(generateResponse(404, "Incorrect Password", {}));
     }
     const access_token = newToken(user);
 
     return res.status(200).send(
-      generateResponse(201, "Login successfull", {
+      generateResponse(200, "Login successfull", {
         user: user,
         access_token,
       })

@@ -1,8 +1,10 @@
 import "dotenv/config";
 import express, { json } from "express";
 import connection from "./config/db";
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 app.use(json());
 
 const userController = require("../src/controller/user.controller");
