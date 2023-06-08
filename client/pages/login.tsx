@@ -19,6 +19,7 @@ export default function Login() {
     phone_number: "",
   });
   const [isLoading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const router = useRouter();
   const access_token = getGlobalItem("user")?.access_token;
 
@@ -48,6 +49,7 @@ export default function Login() {
   };
 
   const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
     try {
       const response = await loginWithGoogleByPopWindow();
       const { data } = await login(
@@ -60,6 +62,7 @@ export default function Login() {
     } catch (error) {
       console.log(error);
     }
+    setGoogleLoading(false);
   };
 
   return (
@@ -112,7 +115,7 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || googleLoading}
               className={`${
                 isLoading && "cursor-not-allowed opacity-70"
               } bg-neutral-50 text-neutral-950 rounded-[12px] py-3 px-5  w-full inter-600 disabled:opacity-60 disabled:text-neutral-950 disabled:cursor-not-allowed h-[48px] hover:opacity-80 transition duration-300`}
@@ -131,14 +134,25 @@ export default function Login() {
         </form>
         <div className=" flex flex-col gap-12 max-w-[400px] w-full mx-auto">
           <button
+            disabled={googleLoading || isLoading}
             onClick={handleGoogleLogin}
             type="submit"
             className={`flex justify-center items-center  bg-neutral-750 text-neutral-50 text-16 inter-600 rounded-[12px] py-3 px-5  w-full inter-600 disabled:opacity-60 disabled:text-neutral-950 disabled:cursor-not-allowed h-[48px] hover:opacity-80 transition duration-300`}
           >
-            <span>
-              <GoogleIcon />
-            </span>
-            <span>{"Continue With Google"}</span>
+            {googleLoading ? (
+              <CgSpinnerAlt
+                className={
+                  "text-neutral-50 transition-all animate-spin text-24 m-auto"
+                }
+              />
+            ) : (
+              <>
+                <span>
+                  <GoogleIcon />
+                </span>
+                <span>{"Continue With Google"}</span>
+              </>
+            )}
           </button>
         </div>
       </div>

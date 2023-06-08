@@ -50,7 +50,7 @@ export default function CreateAccount() {
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <div className="text-neutral-50 inter-600 text-32">
-              Welcome to I!
+              Welcome to Voosh!
             </div>
           </div>
         </div>
