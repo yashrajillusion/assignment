@@ -23,9 +23,13 @@ export const setInstance = (instance: AxiosInstance) => {
 };
 
 export const login = async (
-  loginData: LoginReqData
+  loginData: LoginReqData,
+  login_by = "normal"
 ): Promise<CommonApiResponse<AuthUserData>> => {
-  const { data } = await instance.post("login-user", loginData);
+  const { data } = await instance.post(
+    `auth/login-user/${login_by}`,
+    loginData
+  );
   return data;
 };
 

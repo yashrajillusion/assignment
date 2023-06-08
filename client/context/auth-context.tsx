@@ -1,5 +1,7 @@
 import { instance, setInstance } from "@/pages/api/api";
 import { AuthUserData } from "@/pages/api/types";
+import { auth } from "@/utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useMemo } from "react";
 import { createContext, useContext, useState } from "react";
 interface AuthContextProviderProps {
@@ -20,6 +22,15 @@ export default function AuthContextProvider({
   useEffect(() => {
     setInstance(instance);
   }, [authUserData]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("currentUser", currentUser);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const value = useMemo(
     () => ({

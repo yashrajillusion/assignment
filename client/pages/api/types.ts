@@ -20,6 +20,7 @@ export interface User {
 export interface LoginReqData {
   password: string;
   phone_number: string;
+  google_uid?: string;
 }
 
 export interface RegisterReqData {
