@@ -1,12 +1,12 @@
 import GoogleIcon from "@/components/Icon/GoogleIcon";
 import { CgSpinnerAlt } from "react-icons/cg";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { instance, registerAccount } from "./api/api";
 import { commonToast } from "@/utils/helper";
 import { RegisterReqData } from "./api/types";
 import { useAuthContext } from "@/context/auth-context";
-import { setGlobalItem } from "@/utils/local-storage";
+import { getGlobalItem, setGlobalItem } from "@/utils/local-storage";
 
 export default function CreateAccount() {
   const { authUserData, setAuthUserData } = useAuthContext();
@@ -17,8 +17,15 @@ export default function CreateAccount() {
     phone_number: "",
   });
   const [isLoading, setLoading] = useState(false);
-
   const router = useRouter();
+  const access_token = getGlobalItem("user")?.access_token;
+
+  useEffect(() => {
+    if (access_token) {
+      router.replace("/");
+    }
+  }, [router]);
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };

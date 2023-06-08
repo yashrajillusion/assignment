@@ -2,7 +2,9 @@ import axios, { AxiosInstance } from "axios";
 import {
   AuthUserData,
   CommonApiResponse,
+  CreateOrderReqData,
   LoginReqData,
+  Orders,
   RegisterReqData,
 } from "./types";
 import { getGlobalItem } from "@/utils/local-storage";
@@ -31,5 +33,23 @@ export const registerAccount = async (
   registerData: RegisterReqData
 ): Promise<CommonApiResponse<AuthUserData>> => {
   const { data } = await instance.post("add-user", registerData);
+  return data;
+};
+
+export const getAllOrder = async (
+  userId: string
+): Promise<CommonApiResponse<Orders[]>> => {
+  const { data } = await instance.get("get-order", {
+    params: {
+      user_id: userId,
+    },
+  });
+  return data;
+};
+
+export const createOrder = async (
+  orderData: CreateOrderReqData
+): Promise<CommonApiResponse<Orders>> => {
+  const { data } = await instance.post("add-order", orderData);
   return data;
 };

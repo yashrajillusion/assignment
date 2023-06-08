@@ -28,3 +28,16 @@ export interface RegisterReqData {
   password: string;
   phone_number: string;
 }
+
+export interface Orders {
+  _id: string;
+  user_id: string;
+  sub_total: number;
+  phone_number: string;
+}
+
+export interface CreateOrderReqData {
+  user_id: string;
+  sub_total: number;
+  phone_number: string;
+}

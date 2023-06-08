@@ -2,13 +2,13 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import GoogleIcon from "@/components/Icon/GoogleIcon";
 import { CgSpinnerAlt } from "react-icons/cg";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { instance, login } from "./api/api";
 import { commonToast } from "@/utils/helper";
 import { useAuthContext } from "@/context/auth-context";
 import { LoginReqData } from "./api/types";
-import { setGlobalItem } from "@/utils/local-storage";
+import { getGlobalItem, setGlobalItem } from "@/utils/local-storage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +20,18 @@ export default function Login() {
   });
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
+  const access_token = getGlobalItem("user")?.access_token;
+
+  useEffect(() => {
+    if (access_token) {
+      router.replace("/");
+    }
+  }, [router]);
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
+
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
