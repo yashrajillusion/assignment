@@ -6,7 +6,7 @@ import {
   RegisterReqData,
 } from "./types";
 import { getGlobalItem } from "@/utils/local-storage";
-const accessToken = getGlobalItem("user").access_token;
+const accessToken = getGlobalItem("user")?.access_token;
 
 export const instance = axios.create({
   baseURL: process.env.BASE_URL,
@@ -17,7 +17,7 @@ export const instance = axios.create({
 
 export const setInstance = (instance: AxiosInstance) => {
   instance.defaults.headers["authorization"] =
-    "Bearer " + getGlobalItem("user").access_token;
+    "Bearer " + getGlobalItem("user")?.access_token;
 };
 
 export const login = async (

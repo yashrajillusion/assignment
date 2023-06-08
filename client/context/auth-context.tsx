@@ -1,5 +1,6 @@
+import { instance, setInstance } from "@/pages/api/api";
 import { AuthUserData } from "@/pages/api/types";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { createContext, useContext, useState } from "react";
 interface AuthContextProviderProps {
   children: React.ReactElement | React.ReactElement[];
@@ -16,6 +17,10 @@ export default function AuthContextProvider({
   const [authUserData, setAuthUserData] = useState<AuthUserData>(
     {} as AuthUserData
   );
+  useEffect(() => {
+    setInstance(instance);
+  }, [authUserData]);
+
   const value = useMemo(
     () => ({
       authUserData,
